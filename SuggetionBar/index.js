@@ -2,10 +2,19 @@ const search = document.getElementById("search");
 const sugetionList = document.getElementById("sugetionList");
 
 const getSuggetion = () => {
-  // call search API
-  
-  productList(search.value);
+ 
+  let inputValue = search.value;
+  // santize input value to prevent xss attack
+  let santizedValue = escapeHTML(inputValue);
+   // call search API
+  productList(santizedValue);
 };
+
+const escapeHTML = (value) => {
+  let div = document.createElement('div');
+  div.appendChild(document.createTextNode(value));
+  return div.innerHTML;
+}
 
 const productList = async (searchValue) => {
   try {
@@ -17,6 +26,12 @@ const productList = async (searchValue) => {
     const handleListItem = (e) => {
 
       console.log(e.target.textContent)
+    }
+    if(!searchValue) {
+      sugetionList.innerHTML = '';
+      sugetionList.style.display = "none";
+
+      return;
     }
     
     if(res.products.length > 0 ) {
