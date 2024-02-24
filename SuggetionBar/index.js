@@ -7,6 +7,7 @@ const getSuggetion = () => {
   // santize input value to prevent xss attack
   let santizedValue = escapeHTML(inputValue);
    // call search API
+   
   productList(santizedValue);
 };
 
